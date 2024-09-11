@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Language Detection</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      #video-container {
+        position: relative;
+        width: 640px;
+        height: 480px;
+        overflow: hidden;
+      }
+
+      #video-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      #start-button {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sign Language Detection</h1>
+    <div id="video-container">
+      <img id="video-feed" src="{{ url_for('video_feed') }}" />
+    </div>
+    <button id="start-button" onclick="startDetection()">Start</button>
+
+    <script>
+      let intervalId;
+
+      function startDetection() {
+        document.getElementById("start-button").disabled = true;
+        intervalId = setInterval(function () {
+          document.getElementById("video-feed").src =
+            "{{ url_for('video_feed') }}?_=" + new Date().getTime();
+        }, 100);
+      }
+
+      function stopDetection() {
+        clearInterval(intervalId);
+        document.getElementById("start-button").disabled = false;
+      }
+    </script>
+  </body>
+</html>
